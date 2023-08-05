@@ -55,7 +55,7 @@ python --version
     ```
 
 
-5.2 **Visualização do produto por id**
+5.2.  **Visualização do produto por id**
 
     - Visualização de produto por ID: http://127.0.0.1:5000/products/<product_id>
 
@@ -66,7 +66,7 @@ python --version
     ```
 
 
-5.3 **Atualização de produto por ID**
+5.3.  **Atualização de produto por ID**
 
     - Atualização de produto por ID: Use o método PUT em http://127.0.0.1:5000/products/<product_id> com os dados do produto a serem atualizados em formato JSON.
 
@@ -76,7 +76,7 @@ python --version
     curl -X PUT -H "Content-Type: application/json" -d '{"name":"Updated product","description":"New description"}' http://127.0.0.1:5000/products/<product_id>
     ```
 
-5.4 **Exclusão de produto por ID**    
+5.4.  **Exclusão de produto por ID**    
 
     - Exclusão de produto por ID: Use o método DELETE em http://127.0.0.1:5000/products/<product_id>
 
