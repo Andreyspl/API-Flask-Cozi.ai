@@ -44,7 +44,7 @@ python --version
 
 5. **Faça o CRUD utilizando "curl"**
 
-5.1 **Criação de produto**
+5.1. **Criação de produto**
     
     - Criação de produto: Use o método POST em http://127.0.0.1:5000/products com os dados do produto em formato JSON.
     
