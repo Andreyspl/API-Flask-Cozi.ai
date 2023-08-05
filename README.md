@@ -76,7 +76,7 @@ python --version
     curl -X PUT -H "Content-Type: application/json" -d '{"name":"Updated product","description":"New description"}' http://127.0.0.1:5000/products/<product_id>
     ```
 
-5.4.  **Exclusão de produto por ID**    
+    **Exclusão de produto por ID**    
 
     - Exclusão de produto por ID: Use o método DELETE em http://127.0.0.1:5000/products/<product_id>
 
