@@ -4,84 +4,85 @@ from app.models import Product
 
 # Listagem
 
-@app.route('/produtos', methods=['GET'])
-def obter_produtos():
-    produtos = Product.query.all()
-    lista_de_produtos = []
+@app.route('/products', methods=['GET'])
+def get_products():
+    products = Product.query.all()
+    products_list = []
 
-    for produto in produtos:
-        produto_dict = {
-            "id": produto.id,
-            "nome": produto.nome,
-            "descricao": produto.descricao,
+    for product in products:
+        product_dict = {
+            "id": product.id,
+            "name": product.name,
+            "description": product.description,
             # Outros campos...
         }
-        lista_de_produtos.append(produto_dict)
+        products_list.append(product_dict)
 
-    return jsonify(lista_de_produtos)
+    return jsonify(products_list)
 
 # Criação
 
-@app.route('/produtos', methods=['POST'])
-def criar_produto():
-    dados = request.json  # Assume que os dados são enviados em JSON
-    novo_produto = Product(**dados)
+@app.route('/products', methods=['POST'])
+def create_product():
+    data = request.json  # Assume que os dados são enviados em JSON
+    new_product = Product(**data)
 
-    db.session.add(novo_produto)
+    db.session.add(new_product)
     db.session.commit()
 
     return jsonify({
-        "id": novo_produto.id,
-        "nome": novo_produto.nome,
-        "descricao": novo_produto.descricao,
+        "id": new_product.id,
+        "name": new_product.name,
+        "description": new_product.description,
         # Outros campos...
     }), 201
 
 # Visualização por ID
 
-@app.route('/produtos/<int:id_produto>', methods=['GET'])
-def obter_produto(id_produto):
-    produto = Product.query.get(id_produto)
-    if not produto:
-        return jsonify({"erro": "Produto não encontrado"}), 404
-    produto_dict = {
-        "id": produto.id,
-        "nome": produto.nome,
-        "descricao": produto.descricao,
+@app.route('/products/<int:product_id>', methods=['GET'])
+def get_product(product_id):
+    product = Product.query.get(product_id)
+    if not product:
+        return jsonify({"error": "Product not found"}), 404
+    product_dict = {
+        "id": product.id,
+        "name": product.name,
+        "description": product.description,
         # Outros campos...
     }
-    return jsonify(produto_dict)
+    return jsonify(product_dict)
 
 # Atualização por ID
 
-@app.route('/produtos/<int:id_produto>', methods=['PUT'])
-def atualizar_produto(id_produto):
-    produto = Product.query.get(id_produto)
-    if not produto:
-        return jsonify({"erro": "Produto não encontrado"}), 404
+@app.route('/products/<int:product_id>', methods=['PUT'])
+def update_product(product_id):
+    product = Product.query.get(product_id)
+    if not product:
+        return jsonify({"error": "Product not found"}), 404
 
-    dados = request.json
-    for chave, valor in dados.items():
-        setattr(produto, chave, valor)
+    data = request.json
+    for key, value in data.items():
+        setattr(product, key, value)
 
     db.session.commit()
 
     return jsonify({
-        "id": produto.id,
-        "nome": produto.nome,
-        "descricao": produto.descricao,
+        "id": product.id,
+        "name": product.name,
+        "description": product.description,
         # Outros campos...
     })
 
 # Exclusão por ID
 
-@app.route('/produtos/<int:id_produto>', methods=['DELETE'])
-def excluir_produto(id_produto):
-    produto = Product.query.get(id_produto)
-    if not produto:
-        return jsonify({"erro": "Produto não encontrado"}), 404
+@app.route('/products/<int:product_id>', methods=['DELETE'])
+def delete_product(product_id):
+    product = Product.query.get(product_id)
+    if not product:
+        return jsonify({"error": "Product not found"}), 404
 
-    db.session.delete(produto)
+    db.session.delete(product)
     db.session.commit()
 
-    return jsonify({"mensagem": "Produto excluído"})
+    return jsonify({"message": "Product deleted"})
+
