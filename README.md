@@ -33,7 +33,7 @@ python --version
 3. **Instale as dependências:**
 
     ```bash
-    pip install -r requirements.txt
+    python3 -m pip install -r requirements.txt
     ```
 
 4. **Execute a API:**
