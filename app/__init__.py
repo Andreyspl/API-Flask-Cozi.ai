@@ -9,4 +9,5 @@ db = SQLAlchemy(app)  # Movido para cima para estar disponível para importaçõ
 from app import routes
 
 # Após as importações, crie as tabelas no banco de dados
-db.create_all()
+with app.app_context():
+    db.create_all()
