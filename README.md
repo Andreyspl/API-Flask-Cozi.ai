@@ -36,15 +36,15 @@ python --version
     pip install -r requirements.txt
     ```
 
-6. **Execute a API:**
+4. **Execute a API:**
 
     ```bash
     flask run
     ```
 
-7. **Faça o CRUD utilizando "curl"**
+5. **Faça o CRUD utilizando "curl"**
 
-7.1**Criação de produto**
+5.1**Criação de produto**
     
     - Criação de produto: Use o método POST em http://127.0.0.1:5000/products com os dados do produto em formato JSON.
     
@@ -55,7 +55,7 @@ python --version
     ```
 
 
-7.2**Visualização do produto por id**
+5.2**Visualização do produto por id**
 
     - Visualização de produto por ID: http://127.0.0.1:5000/products/<product_id>
 
@@ -66,7 +66,7 @@ python --version
     ```
 
 
-7.3**Atualização de produto por ID**
+5.3**Atualização de produto por ID**
 
     - Atualização de produto por ID: Use o método PUT em http://127.0.0.1:5000/products/<product_id> com os dados do produto a serem atualizados em formato JSON.
 
@@ -76,7 +76,7 @@ python --version
     curl -X PUT -H "Content-Type: application/json" -d '{"name":"Updated product","description":"New description"}' http://127.0.0.1:5000/products/<product_id>
     ```
 
-7.4**Esclusão de produto por ID**    
+5.4**Esclusão de produto por ID**    
 
     - Exclusão de produto por ID: Use o método DELETE em http://127.0.0.1:5000/products/<product_id>
 
@@ -85,8 +85,8 @@ python --version
     ```bash
     curl -X DELETE http://127.0.0.1:5000/products/<product_id>
     ```
-    
-8. **Acesse a API:**
+
+6. **Acesse a API:**
 
     Acesse a API em seu navegador. Aqui está o endpoint de listagem de produtos:
 
