@@ -22,82 +22,117 @@ def before_request():
 # Listagem
 @app.route('/v1/products', methods=['GET'])
 def get_products():
-    products = Product.query.all()
-    products_list = []
+    """Lista os produtos"""
+    try:
+        products = Product.query.all() # Adicionar filtros posteriormente
+        if len(products) <= 0:
+            raise ValueError("Não foram encontrados produtos com os filtros informados")
+        
+        products_list = []
+        for product in products:
+            product_dict = {
+                "id": product.id,
+                "name": product.name,
+                "description": product.description
+                # Outros campos...
+            }
+            products_list.append(product_dict)
+        
+        return jsonify(products_list)
 
-    for product in products:
+    except ValueError as e:
+        return str(e)
+    
+    except Exception as e:
+        return f"O sistema se comportou de maneira inesperada, erro: {str(e)}"
+
+        
+
+# Criação
+@app.route('/v1/products', methods=['POST'])
+def create_product():
+    """"Cria um produto"""
+    try:
+        data = request.json  # Assume que os dados são enviados em JSON
+
+        if not data or "name" not in data or "description" not in data:
+            raise Exception("Invalid data")
+    
+        new_product = Product(**data)
+
+        db.session.add(new_product)
+        db.session.commit()
+
+        return jsonify({
+            "id": new_product.id,
+            "name": new_product.name,
+            "description": new_product.description,
+            # Outros campos...
+        }), 201
+
+    except Exception as e:
+        return(f"Erro {str(e)}")
+
+# Visualização por ID
+@app.route('/v1/products/<int:product_id>', methods=['GET'])
+def get_product(product_id):
+    """Visualiza o produto"""
+    try:
+        product = Product.query.get(product_id)
+
+        if not product:
+            raise Exception("error, product not found")
+
         product_dict = {
             "id": product.id,
             "name": product.name,
             "description": product.description,
             # Outros campos...
         }
-        products_list.append(product_dict)
-
-    return jsonify(products_list)
-
-# Criação
-@app.route('/v1/products', methods=['POST'])
-def create_product():
-    data = request.json  # Assume que os dados são enviados em JSON
-
-    if not data or "name" not in data or "description" not in data:
-        return jsonify({"error": "Invalid data"}), 400
-
-    new_product = Product(**data)
-
-    db.session.add(new_product)
-    db.session.commit()
-
-    return jsonify({
-        "id": new_product.id,
-        "name": new_product.name,
-        "description": new_product.description,
-        # Outros campos...
-    }), 201
-
-# Visualização por ID
-@app.route('/v1/products/<int:product_id>', methods=['GET'])
-def get_product(product_id):
-    product = Product.query.get(product_id)
-    if not product:
-        return jsonify({"error": "Product not found"}), 404
-    product_dict = {
-        "id": product.id,
-        "name": product.name,
-        "description": product.description,
-        # Outros campos...
-    }
-    return jsonify(product_dict)
+        return jsonify(product_dict)
+    
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 # Atualização por ID
 @app.route('/v1/products/<int:product_id>', methods=['PUT'])
 def update_product(product_id):
-    product = Product.query.get(product_id)
-    if not product:
-        return jsonify({"error": "Product not found"}), 404
+    """Atualiza um produto"""
+    try:
+        product = Product.query.get(product_id)
+        if not product:
+            return jsonify({"error": "Product not found"}), 404
 
-    data = request.json
-    for key, value in data.items():
-        setattr(product, key, value)
+        data = request.json
+        for key, value in data.items():
+            setattr(product, key, value)
 
-    db.session.commit()
+        db.session.commit()
 
-    return jsonify({
-        "id": product.id,
-        "name": product.name,
-        "description": product.description,
-        # Outros campos...
-    })
+        return jsonify({
+            "id": product.id,
+            "name": product.name,
+            "description": product.description,
+            # Outros campos...
+        })
+
+    except Exception as e:
+        return f"Error found: {str(e)}"
 
 # Exclusão por ID
 @app.route('/v1/products/<int:product_id>', methods=['DELETE'])
 def delete_product(product_id):
+    """Deleta um produto"""
     product = Product.query.get(product_id)
     if not product:
         return jsonify({"error": "Product not found"}), 404
 
-    db.session.delete(product)
-    db.session.commit()
+    try:
+        db.session.delete(product)
+        db.session.commit()
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
 
     return jsonify({"message": "Product deleted"})

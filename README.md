@@ -82,7 +82,7 @@ A senha é "Cozi.ai.Andrey"
     **Exemplo**
 
     ```bash
-    curl -X PUT -H "Content-Type: application/json" -d '{"name":"Produto Atualizado","description":"Nova descrição"}' -u cozi.ai:Cozi.ai.Andrey http://127.0.0.1:5000/v1/products/<product_id>
+    curl -X PUT -H "Content-Type: application/json" -d '{"name":"Updated Product","description":"New description"}' -u cozi.ai:Cozi.ai.Andrey http://127.0.0.1:5000/v1/products/<product_id>
     ```
 
 
